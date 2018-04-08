@@ -27,7 +27,7 @@ public class WeatherResponse implements Serializable {
     }
 
     @JsonProperty("wind")
-    public void setWind(Map<String, Object> oWind) {
+    public void setWindDetails(Map<String, Object> oWind) {
         setWindSpeed( Double.parseDouble( oWind.get( "speed" ).toString() ) );
         if(oWind.get( "deg" ) != null) {
             setWindDirection( Double.parseDouble( oWind.get( "deg" ).toString() ) );

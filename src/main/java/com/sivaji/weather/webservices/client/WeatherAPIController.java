@@ -29,13 +29,12 @@ public class WeatherAPIController {
     }
 
     @RequestMapping(value = "/wind/{zipCode}", method = RequestMethod.GET)
-    public Weather getWindInformation(@PathVariable String zipCode)
-    {
-        if(this.weatherService.getWind(zipCode) == null) {
+    public Weather getWindByZipCode(@PathVariable String zipCode) throws WeatherServiceException {
+        if(this.weatherService.getWindByZipCode(zipCode) == null) {
             throw new WeatherServiceException("No Response");
         }
 
-        return this.weatherService.getWind(zipCode);
+        return this.weatherService.getWindByZipCode(zipCode);
     }
 
     @RequestMapping(value = "/wind/clearcache", method = RequestMethod.GET)
