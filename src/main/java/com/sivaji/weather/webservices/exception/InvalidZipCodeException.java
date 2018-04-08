@@ -3,9 +3,9 @@ package com.sivaji.weather.webservices.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class InvalidZipCodeException extends RuntimeException {
-    public InvalidZipCodeException() {
-        super("Invalid Zip Code.");
+    public InvalidZipCodeException(String exception) {
+        super(exception);
     }
 }

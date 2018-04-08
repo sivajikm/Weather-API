@@ -44,19 +44,12 @@ public class Cache<T> {
         this.name = name;
     }
 
-    /**
-     * @return The name of this cache.
-     */
+
     public String getName() {
         return name;
     }
 
-    /**
-     * Add an item to the cache.
-     *
-     * @param key The key used to refer to the cached item.
-     * @param value The cached item.
-     */
+
     public synchronized void add(String key, T value) {
         valueMap.put(key, value);
         insertTimeMap.put(key, System.currentTimeMillis());
@@ -67,24 +60,13 @@ public class Cache<T> {
         }
     }
 
-    /**
-     * Add an item to the cache.
-     *
-     * @param key The key used to refer to the cached item.
-     * @param value The cached item.
-     * @param expireMinutes The number of minutes the cached value should be considered fresh.
-     */
+
     public synchronized void add(String key, T value, int expireMinutes) {
         add(key, value);
         cacheMinutesMap.put(key, expireMinutes);
     }
 
-    /**
-     * Retrieve a cached item.
-     *
-     * @param key The key used to refer to the cached item.
-     * @return The cached value or null if it does not exist or has expired.
-     */
+
     public T get(String key) {
         if (!isKeyInCache(key)) {
             return null;
@@ -93,11 +75,7 @@ public class Cache<T> {
         return valueMap.get(key);
     }
 
-    /**
-     * Checks to see whether a cached item has expired.
-     *
-     * @param key The key used to refer to the cached item.
-     */
+
     protected boolean isExpired(String key) {
         Long timeEntered = insertTimeMap.get(key);
 
@@ -113,50 +91,29 @@ public class Cache<T> {
         return System.currentTimeMillis() > timeEntered + (cacheMinutes * 60 * 1000);
     }
 
-    /**
-     * Remove cached item with the specified key.
-     *
-     * @param key The key used to refer to the cached item.
-     */
+
     public synchronized void remove(String key) {
         remove(key, true);
     }
 
-    /**
-     * Remove cached item with the specified key.
-     *
-     * @param key The key used to refer to the cached item.
-     * @param fireEvents Flag indicating whether or not to fire events.
-     */
     protected synchronized void remove(String key, boolean fireEvents) {
         valueMap.remove(key);
         insertTimeMap.remove(key);
         cacheMinutesMap.remove(key);
     }
 
-    /**
-     * Clear all items in the cache.
-     */
+
     public synchronized void removeAll() {
         removeAll(true);
     }
 
-    /**
-     * Clear all items in the cache.
-     *
-     * @param fireEvents Flag indicating whether or not to fire events.
-     */
+
     protected synchronized void removeAll(boolean fireEvents) {
         valueMap.clear();
         insertTimeMap.clear();
         cacheMinutesMap.clear();
     }
 
-    /**
-     * Remove all expired items from this cache.
-     *
-     * @return The number of expired cached elements removed.
-     */
     public int removeExpired() {
         int count = 0;
 
@@ -177,31 +134,19 @@ public class Cache<T> {
         return count;
     }
 
-    /**
-     * @return The default number of minutes a cached item should be considered fresh.
-     */
     public int getDefaultMinutes() {
         return defaultMinutes;
     }
 
-    /**
-     * @param defaultMinutes The default number of minutes a cached item should be considered fresh.
-     */
     public void setDefaultMinutes(int defaultMinutes) {
         this.defaultMinutes = defaultMinutes;
     }
 
-    /**
-     * @return The keys in this cache.
-     */
     public String[] getKeys() {
         return valueMap.keySet().toArray(new String[0]);
     }
 
-    /**
-     * Return <code>true</code> if the key is in the specified cache, even if the value associated
-     * with that key is <code>null</code>.
-     */
+
     public boolean isKeyInCache(String key) {
         if (isExpired(key)) {
             remove(key, false);

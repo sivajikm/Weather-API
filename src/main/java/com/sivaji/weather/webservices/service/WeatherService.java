@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.regex.Pattern;
 
 import com.sivaji.weather.webservices.exception.InvalidZipCodeException;
+import com.sivaji.weather.webservices.exception.WeatherServiceException;
 import com.sivaji.weather.webservices.model.Weather;
 import com.sivaji.weather.webservices.utils.Cache;
 import com.sivaji.weather.webservices.utils.CacheManager;
@@ -42,8 +43,12 @@ public class WeatherService {
     public Weather getWind(String zipCode) {
         logger.info("Requesting current wind for {}", zipCode);
 
+        if(zipCode == null) {
+            throw new InvalidZipCodeException("Zip Code can not be null");
+        }
+
         if(!Pattern.matches(regex, zipCode)) {
-            throw new InvalidZipCodeException();
+            throw new InvalidZipCodeException("Invalid Zip Code");
         }
 
         Cache weatherAPICache = cacheManager.getCache(CacheManager.CACHE_NAME);

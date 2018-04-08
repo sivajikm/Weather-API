@@ -1,5 +1,6 @@
 package com.sivaji.weather.webservices.client;
 
+import com.sivaji.weather.webservices.exception.InvalidZipCodeException;
 import com.sivaji.weather.webservices.exception.WeatherServiceException;
 import com.sivaji.weather.webservices.model.CustomResponse;
 import com.sivaji.weather.webservices.model.Weather;
@@ -31,7 +32,7 @@ public class WeatherAPIController {
     public Weather getWindInformation(@PathVariable String zipCode)
     {
         if(this.weatherService.getWind(zipCode) == null) {
-            return new CustomResponse("Wind Information not unavailable");
+            throw new WeatherServiceException("No Response");
         }
 
         return this.weatherService.getWind(zipCode);
